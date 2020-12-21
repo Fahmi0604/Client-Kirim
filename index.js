@@ -1,5 +1,6 @@
 const express = require('express')
 const upload = require('express-fileupload')
+var fs = require('fs')
 
 const app = express()
 
@@ -14,7 +15,23 @@ app.post('/', (req, res) => {
         console.log(req.files)
         var file = req.files.file
         var filename = file.name
+        console.log(filename)
+
+        file.mv('./uploads/'+filename, function (err) {
+            if (err) {
+                res.send(err)
+            } else {
+                res.send("File Uploaded")
+            }
+        })
     }
 })
 
 app.listen(5000)
+
+app.get('/D', (req, res) => {
+    fs.readFile('readme.txt', 'utf8', function(err, data) {
+        if (err) throw err;
+        console.log(data);
+    });
+})
