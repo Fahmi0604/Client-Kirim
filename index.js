@@ -1,5 +1,6 @@
 const express = require('express')
 const upload = require('express-fileupload')
+const myFolder = './uploads/';
 var fs = require('fs')
 
 const app = express()
@@ -11,14 +12,26 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-    if (req.files){
+    if (req.files) {
         console.log(req.files)
         var file = req.files.file
-        fs.readFile(file.name, 'utf8', function(err, data) {
+        fs.readFile(file.name, 'utf8', function (err, data) {
             if (err) throw err;
             res.send(data)
         });
     }
+})
+
+app.get('/folder', (req, res) => {
+    fs.readdir(myFolder, (err, files) => {
+        if (err) {
+            return console.log('Unable to scan directory: ' + err)
+        }
+        files.forEach(file => {
+            // res.send(file)
+            console.log(file)
+        });
+    });
 })
 
 app.listen(5000, function () {
