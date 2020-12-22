@@ -1,3 +1,6 @@
+# Mac Storage Generated File
+.DS_Store
+
 # Logs
 logs
 *.log

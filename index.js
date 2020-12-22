@@ -14,24 +14,13 @@ app.post('/', (req, res) => {
     if (req.files){
         console.log(req.files)
         var file = req.files.file
-        var filename = file.name
-        console.log(filename)
-
-        file.mv('./uploads/'+filename, function (err) {
-            if (err) {
-                res.send(err)
-            } else {
-                res.send("File Uploaded")
-            }
-        })
+        fs.readFile(file.name, 'utf8', function(err, data) {
+            if (err) throw err;
+            res.send(data)
+        });
     }
 })
 
-app.listen(5000)
-
-app.get('/D', (req, res) => {
-    fs.readFile('readme.txt', 'utf8', function(err, data) {
-        if (err) throw err;
-        console.log(data);
-    });
+app.listen(5000, function () {
+    console.log("Listen at 5000")
 })
